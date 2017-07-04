@@ -1,25 +1,14 @@
 <html>
   <head>
     <meta charset="UTF-8">
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
     <title>
       Calcular melhor dias de férias
     </title>
   </head>
-  <script src="js/moment.js"></script>
-  <script src="js/script.js"></script>
-  <script src="bundle.js"></script>
-
+  
   <body>
-    <label for="initialDate">Data Inicial</label>
-    <input type="date" id="initialDate" />
-    <br/>
-    <label for="endDate">Quantos dias de ferias?</label>
-    <input type="number" id="numberOfDays" />
-    <br/>
-    <button onclick="calcVacation()">Calcular</button>
-
-    <div id="result">
-
-    </div>
+    <div id='app'></div>
+    <script src="bundle.js"></script>
   </body>
 </html>
