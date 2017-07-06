@@ -1,72 +1,120 @@
 import React from 'react'
 import moment from 'moment'
 
-export default props => (
-  <div className='container'>
-    <h1>Descubra o melhor dia para tirar suas férias</h1>
-    <label for="initialDate">Data Inicial</label>
-    <input type="date" id="initialDate" />
-    <br/>
-    <label for="endDate">Quantos dias de ferias?</label>
-    <input type="number" id="numberOfDays" />
-    <br/>
-    <button onClick={calcVacation()}>Calcular</button>
+export default class App extends React.Component {
+  constructor(props){
+    super(props)
+    this.state = { initialDate: '',  numberOfDays: '', endDateMoment: '' }
 
-    <div id="result">
-
-    </div>
-  </div>
-)
-
-export const calcVacation = () => {
-  var initialDate = moment(document.getElementById('initialDate').value).startOf('day');
-  var qtdDays =  parseInt(document.getElementById('numberOfDays').value);
-  var numberOfDays = qtdDays - 1;
-  var endDate = initialDate.clone().add(numberOfDays, 'day');
-
-  var daysOfWeek = countDaysOfWeek(initialDate, endDate);
-  var weekends = qtdDays - daysOfWeek;
-  qtdDays = calculateTotalDays(qtdDays);
-
-  function calculateTotalDays(qtdDays) {
-    var totalDays = qtdDays;
-    if(initialDate.day() == 1) {
-      totalDays += 2;
-    } else if (initialDate.day() == 5){
-      totalDays += 1;
-    }
-
-    if(endDate.day() == 5) {
-      totalDays += 2;
-    } else if (endDate.day() == 6){
-      totalDays += 1;
-    }
-    return totalDays;
+    this.handleInitialDateChange = this.handleInitialDateChange.bind(this)
+    this.handleNumberOfDaysChange = this.handleNumberOfDaysChange.bind(this)
+    this.calcVacation = this.calcVacation.bind(this)
   }
 
-  function isWeekend(dayOfWeek) {
-    return (dayOfWeek == 6) || (dayOfWeek == 0);
+  calcVacation(event) {
+    event.preventDefault();
+    const initialDateMoment = moment(this.state.initialDate).startOf('day')
+    const endDateMoment = this.calcEndDate(initialDateMoment, this.state.numberOfDays)
+    const daysOfWeek = this.calcDaysOfWeek(initialDateMoment, endDateMoment)
+    const daysOfWeekend = this.calcWeekends(this.state.numberOfDays, daysOfWeek)
+    const totalDays = this.calcTotalDays(initialDateMoment,
+      endDateMoment, this.state.numberOfDays)
+
+    this.setState({
+      initialDateMoment: initialDateMoment.format('DD/MM/YYYY'),
+      endDateMoment: endDateMoment.format('DD/MM/YYYY'),
+      daysOfWeek,
+      daysOfWeekend,
+      totalDays
+    })
   }
 
-  function countDaysOfWeek(initialDate, endDate) {
-    var countDaysOfWeek = 0;
-    var curDate = initialDate.clone();
+
+
+  calcEndDate(initialDateMoment, numberOfDays) {
+    return initialDateMoment.clone().add(numberOfDays - 1, 'day')
+  }
+
+  calcDaysOfWeek(initialDateMoment, endDate) {
+    let countDaysOfWeek = 0
+    let curDate = initialDateMoment.clone();
 
     while (curDate <= endDate) {
-        var day = curDate.day();
-        if(!isWeekend(day)) {
+        let day = curDate.day();
+        if(!this.isWeekend(day)) {
            countDaysOfWeek++;
         }
 
         curDate = curDate.add(1, 'day');
     }
 
-    return countDaysOfWeek;
+    return countDaysOfWeek
   }
 
+  calcWeekends(numberOfDays, numberDaysOfWeek) {
+    return numberOfDays - numberDaysOfWeek
+  }
 
-  document.getElementById('result').innerHTML = '<p>Seu ultimo dias de ferias: ' + endDate.format('DD/MM/YYYY') + '</p>'
-   + '<p>Total Dias contando com finais de semana fora das ferias: ' + qtdDays + '</p>'
-   + '<p>Total Dias de Semana: ' + daysOfWeek + '</p>'
-   + '<p>Total Finais de Semana perdidos nas ferias: ' + weekends + '</p>';
+  calcTotalDays(initialDateMoment, endDateMoment, numberOfDays) {
+    let totalDays = this.state.numberOfDays
+
+    totalDays += this.calcDayInTheBeginning(initialDateMoment);
+    totalDays += this.calcDayInTheEnd(endDateMoment);
+
+    return totalDays
+  }
+
+  calcDayInTheBeginning(initialDateMoment) {
+    if(initialDateMoment.day() == 1) {
+      return 2
+    } else if (initialDateMoment.day() == 5){
+      return 1
+    }
+    return 0
+  }
+
+  calcDayInTheEnd(endDate) {
+    if(endDate.day() == 5) {
+      return 2
+    } else if (endDate.day() == 6){
+      return 1
+    }
+    return 0
+  }
+
+  isWeekend(dayOfWeek) {
+    return (dayOfWeek == 6) || (dayOfWeek == 0);
+  }
+
+  handleInitialDateChange(event) {
+      this.setState({ initialDate: event.target.value })
+  }
+
+  handleNumberOfDaysChange(event) {
+      this.setState({ numberOfDays: parseInt(event.target.value) })
+  }
+
+  render() {
+    return (
+      <div className='container'>
+        <form>
+          <h1>Calcule o melhor dia para suas férias</h1>
+          <label htmlFor="initialDate">Data Inicial</label>
+          <input type="date" id="initialDate" value={this.state.initialDate} onChange={this.handleInitialDateChange} />
+          <br/>
+          <label htmlFor="numberOfDays">Quantos dias de ferias?</label>
+          <input type="number" id="numberOfDays" value={this.state.numberOfDays} onChange={this.handleNumberOfDaysChange} />
+          <br/>
+          <button onClick={this.calcVacation}>Calcular</button>
+
+          <div id="result">
+            <p>Seu ultimo dias de férias: {this.state.endDateMoment} </p>
+            <p>Total Dias contando com finais de semana fora das ferias: {this.state.totalDays}</p>
+            <p>Total Dias de Semana: {this.state.daysOfWeek}</p>
+            <p>Total Finais de Semana perdidos nas ferias: {this.state.daysOfWeekend}</p>
+          </div>
+        </form>
+      </div>
+    )
+  }
 }
