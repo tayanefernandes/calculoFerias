@@ -60,7 +60,7 @@ export default class App extends React.Component {
   }
 
   calcTotalDays(initialDateMoment, endDateMoment, numberOfDays) {
-    let totalDays = this.state.numberOfDays
+    let totalDays = numberOfDays
 
     totalDays += this.calcDayInTheBeginning(initialDateMoment);
     totalDays += this.calcDayInTheEnd(endDateMoment);
