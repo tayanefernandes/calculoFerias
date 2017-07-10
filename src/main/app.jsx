@@ -1,10 +1,13 @@
 import React from 'react'
 import moment from 'moment'
 
+import './custom.css'
+import Result from './result'
+
 export default class App extends React.Component {
   constructor(props){
     super(props)
-    this.state = { initialDate: '',  numberOfDays: '', endDateMoment: '' }
+    this.state = { initialDate: '',  numberOfDays: '', endDateMoment: '', showResult: false }
 
     this.handleInitialDateChange = this.handleInitialDateChange.bind(this)
     this.handleNumberOfDaysChange = this.handleNumberOfDaysChange.bind(this)
@@ -25,7 +28,8 @@ export default class App extends React.Component {
       endDateMoment: endDateMoment.format('DD/MM/YYYY'),
       daysOfWeek,
       daysOfWeekend,
-      totalDays
+      totalDays,
+      showResult: true
     })
   }
 
@@ -106,14 +110,13 @@ export default class App extends React.Component {
           <input type="number" id="numberOfDays" value={this.state.numberOfDays} onChange={this.handleNumberOfDaysChange} />
           <br/>
           <button onClick={this.calcVacation}>Calcular</button>
-
-          <div id="result">
-            <p>Seu ultimo dias de férias: {this.state.endDateMoment} </p>
-            <p>Total Dias contando com finais de semana fora das ferias: {this.state.totalDays}</p>
-            <p>Total Dias de Semana: {this.state.daysOfWeek}</p>
-            <p>Total Finais de Semana perdidos nas ferias: {this.state.daysOfWeekend}</p>
-          </div>
         </form>
+        <Result
+          showResult={this.state.showResult}
+          endDateMoment={this.state.endDateMoment}
+          totalDays={this.state.totalDays}
+          daysOfWeek={this.state.daysOfWeek}
+          daysOfWeekend={this.state.daysOfWeekend} />
       </div>
     )
   }

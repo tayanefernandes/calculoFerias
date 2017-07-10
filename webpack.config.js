@@ -17,13 +17,19 @@ module.exports = {
   plugins: [
     new ExtractTextPlugin('app.css')
   ],
+  externals: {
+    cheerio: 'window',
+    'react/addons': 'react',
+    'react/lib/ExecutionEnvironment': 'react',
+    'react/lib/ReactContext': 'react',
+  },
   module: {
     loaders: [{
       test: /.jsx?$/,
       loader: 'babel-loader',
       exclude: /node_modules/,
       query: {
-        presets: ['es2015', 'react']
+        presets: ['es2015', 'react', 'stage-0']
       }
     },
     {
