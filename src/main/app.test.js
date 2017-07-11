@@ -58,20 +58,54 @@ describe('<App />', () => {
     expect(daysOfWeek).to.equal(4)
   })
 
-  it('calculates number of weekends before the vacation', () => {
+  describe('calculates number of weekends before the vacation', () => {
     const wrapper = shallow(<App />)
-    const startDate = moment('03-07-2017', 'DD-MM-YYYY').startOf('day')
-    const totalDays = wrapper.instance().calcDayInTheBeginning(startDate)
 
-    expect(totalDays).to.equal(2)
+    it('when the first day is monday', () => {
+      const startDate = moment('03-07-2017', 'DD-MM-YYYY').startOf('day')
+      const totalDays = wrapper.instance().calcDayInTheBeginning(startDate)
+
+      expect(totalDays).to.equal(2)
+    })
+
+    it('when the first day is sunday', () => {
+      const startDate = moment('23-07-2017', 'DD-MM-YYYY').startOf('day')
+      const totalDays = wrapper.instance().calcDayInTheBeginning(startDate)
+
+      expect(totalDays).to.equal(1)
+    })
+
+    it('when the first day is saturday', () => {
+      const startDate = moment('01-07-2017', 'DD-MM-YYYY').startOf('day')
+      const totalDays = wrapper.instance().calcDayInTheBeginning(startDate)
+
+      expect(totalDays).to.equal(0)
+    })
   })
 
-  it('calculates number of weekends after the vacation', () => {
+  describe('calculates number of weekends after the vacation', () => {
     const wrapper = shallow(<App />)
-    const endDate = moment('17-07-2017', 'DD-MM-YYYY').startOf('day')
-    const totalDays = wrapper.instance().calcDayInTheEnd(endDate)
 
-    expect(totalDays).to.equal(0)
+    it('when the last day is friday', () => {
+      const endDate = moment('14-07-2017', 'DD-MM-YYYY').startOf('day')
+      const totalDays = wrapper.instance().calcDayInTheEnd(endDate)
+
+      expect(totalDays).to.equal(2)
+    })
+
+    it('when the last day is saturday', () => {
+      const endDate = moment('15-07-2017', 'DD-MM-YYYY').startOf('day')
+      const totalDays = wrapper.instance().calcDayInTheEnd(endDate)
+
+      expect(totalDays).to.equal(1)
+    })
+
+    it('when the last day is sunday', () => {
+      const endDate = moment('16-07-2017', 'DD-MM-YYYY').startOf('day')
+      const totalDays = wrapper.instance().calcDayInTheEnd(endDate)
+
+      expect(totalDays).to.equal(0)
+    })
   })
 
   it('calculates total number of days in the vacation, including weekends before and after', () => {

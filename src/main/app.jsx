@@ -69,9 +69,10 @@ export default class App extends React.Component {
   }
 
   calcDayInTheBeginning(initialDateMoment) {
+    console.log('Day==>', initialDateMoment.day())
     if(initialDateMoment.day() == 1) {
       return 2
-    } else if (initialDateMoment.day() == 5){
+    } else if (initialDateMoment.day() == 0){
       return 1
     }
     return 0
