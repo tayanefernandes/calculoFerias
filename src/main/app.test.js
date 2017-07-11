@@ -12,7 +12,7 @@ describe('<App />', () => {
     wrapper.find('button').simulate('click', { preventDefault: () => {} })
 
     expect(wrapper.find(Result)).to.have.length(1)
-  });
+  })
 
   it('set initial date of vacation', () => {
     const wrapper = shallow(<App />)
@@ -22,17 +22,17 @@ describe('<App />', () => {
     wrapper.update()
 
     expect(wrapper.state().initialDate).to.equal('18-06-2017');
-  });
+  })
 
   it('set number of days of vacation', () => {
     const wrapper = shallow(<App />)
     wrapper.find('#numberOfDays').simulate('change', { target: {
       value: '7' }
-    });
+    })
     wrapper.update()
 
     expect(wrapper.state().numberOfDays).to.equal(7);
-  });
+  })
 
   it('calculates vacation end date', () => {
     const wrapper = shallow(<App />)
