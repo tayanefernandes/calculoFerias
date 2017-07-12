@@ -1,7 +1,10 @@
 import React from 'react'
 import { expect } from 'chai'
 import { mount, shallow } from 'enzyme'
+import sinon from 'sinon'
 import DatePicker from 'material-ui/DatePicker'
+import TextField from 'material-ui/TextField'
+import RaisedButton from 'material-ui/RaisedButton'
 
 import Form from './form'
 
@@ -13,22 +16,26 @@ describe('<Form />', () => {
   })
 
   it('set initial date of vacation', () => {
-    const wrapper = shallow(<App />)
-    wrapper.find(DatePicker).simulate('change', { target: {
-      value: '18-06-2017' }
-    });
-    wrapper.update()
+    const spy = sinon.spy();
+    const wrapper = shallow(<Form handleInitialDateChange={spy} />);
+    wrapper.find(DatePicker).simulate('change', {target: {value: '2016-07-04'}})
 
-    expect(wrapper.state().initialDate).to.equal('18-06-2017');
+    sinon.assert.calledOnce(spy)
   })
 
   it('set number of days of vacation', () => {
-    const wrapper = shallow(<App />)
-    wrapper.find('#numberOfDays').simulate('change', { target: {
-      value: '7' }
-    })
-    wrapper.update()
+    const spy = sinon.spy();
+    const wrapper = shallow(<Form handleNumberOfDaysChange={spy} />);
+    wrapper.find(TextField).simulate('change', {target: {value: '7'}})
 
-    expect(wrapper.state().numberOfDays).to.equal(7);
+    sinon.assert.calledOnce(spy)
+  })
+
+  it('call the setResult prop method', () => {
+    const spy = sinon.spy();
+    const wrapper = shallow(<Form setDates={spy} />);
+    wrapper.find(RaisedButton).simulate('click', { preventDefault() {} })
+
+    sinon.assert.calledOnce(spy)
   })
 });

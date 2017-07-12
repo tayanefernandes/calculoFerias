@@ -14,6 +14,23 @@ describe('<App />', () => {
     expect(wrapper.find(Result)).to.have.length(1)
   })
 
+  it('sets initial Date on the state', () => {
+    const wrapper = shallow(<App />)
+    wrapper.instance().handleInitialDate('25-07-2017')
+    wrapper.update()
+
+    expect(wrapper.state('initialDate')).to.equal('25-07-2017');
+  })
+
+  it('sets initial number of days on the state', () => {
+    const wrapper = shallow(<App />)
+    wrapper.instance().handleNumberOfDays('10')
+    wrapper.update()
+
+    expect(wrapper.state('numberOfDays')).to.equal(10);
+  })
+
+
   it('calculates vacation end date', () => {
     const wrapper = shallow(<App />)
     const startDate = moment('03-07-2017', 'DD-MM-YYYY').startOf('day')

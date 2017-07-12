@@ -72,11 +72,11 @@ export default class App extends React.Component {
   }
 
   handleInitialDate = (value) => {
-      this.setState({ initialDate: value })
+    this.setState({ initialDate: value })
   }
 
   handleNumberOfDays = (value) => {
-      this.setState({ numberOfDays: parseInt(value) })
+    this.setState({ numberOfDays: parseInt(value) })
   }
 
   setDates = () => {

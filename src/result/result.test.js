@@ -11,7 +11,7 @@ describe('<Result />', () => {
     expect(wrapper.find('p')).to.have.length(4)
   })
 
-  it('does not render <div /> with paragraphs when showResult prop is false', () => {
+  it('does not render <div /> when prop is false', () => {
     const wrapper = shallow(<Result showResult={false}/>)
     expect(wrapper.find('div')).to.have.length(0)
   })
