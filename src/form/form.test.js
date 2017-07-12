@@ -31,9 +31,9 @@ describe('<Form />', () => {
     sinon.assert.calledOnce(spy)
   })
 
-  it('call the setResult prop method', () => {
+  it('call the calculateResult prop method', () => {
     const spy = sinon.spy();
-    const wrapper = shallow(<Form setDates={spy} />);
+    const wrapper = shallow(<Form calculateResult={spy} />);
     wrapper.find(RaisedButton).simulate('click', { preventDefault() {} })
 
     sinon.assert.calledOnce(spy)

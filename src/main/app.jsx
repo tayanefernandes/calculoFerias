@@ -11,7 +11,7 @@ import Form from '../form/form'
 injectTapEventPlugin()
 
 export default class App extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props)
     this.state = { initialDate: '',  numberOfDays: '', endDateMoment: '', showResult: false }
   }
@@ -79,7 +79,7 @@ export default class App extends React.Component {
     this.setState({ numberOfDays: parseInt(value) })
   }
 
-  setDates = () => {
+  calculateResult = () => {
     const initialDateMoment = moment(this.state.initialDate).startOf('day')
     const endDateMoment = this.calcEndDate(initialDateMoment, this.state.numberOfDays)
     const daysOfWeek = this.calcDaysOfWeek(initialDateMoment, endDateMoment)
@@ -104,7 +104,7 @@ export default class App extends React.Component {
           <h1>Decida qual o melhor dia para tirar suas férias!</h1>
           <Form handleInitialDateChange={this.handleInitialDate}
                 handleNumberOfDaysChange={this.handleNumberOfDays}
-                setDates={this.setDates}/>
+                calculateResult={this.calculateResult}/>
           <Result
             showResult={this.state.showResult}
             endDateMoment={this.state.endDateMoment}

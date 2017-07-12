@@ -9,7 +9,7 @@ import Result from '../result/result'
 describe('<App />', () => {
   it('renders <Result /> component', () => {
     const wrapper = shallow(<App />)
-    wrapper.instance().setDates()
+    wrapper.instance().calculateResult()
 
     expect(wrapper.find(Result)).to.have.length(1)
   })

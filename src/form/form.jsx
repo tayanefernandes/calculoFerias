@@ -13,9 +13,9 @@ export default class Form extends React.Component {
     this.props.handleNumberOfDaysChange(value)
   }
 
-  setDates = (event) => {
+  calculateResult = (event) => {
     event.preventDefault()
-    this.props.setDates()
+    this.props.calculateResult()
   }
 
   render() {
@@ -37,7 +37,7 @@ export default class Form extends React.Component {
           onChange={this.handleNumberOfDays}
         />
         <br/>
-        <RaisedButton className="form-button" onClick={this.setDates} primary={true}>Calcular</RaisedButton>
+        <RaisedButton className="form-button" onClick={this.calculateResult} primary={true}>Calcular</RaisedButton>
       </form>
     )
   }
