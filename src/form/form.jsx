@@ -24,9 +24,11 @@ export default class Form extends React.Component {
         <DatePicker hintText="Informe a data inicial de suas férias"
           floatingLabelText="Data Inicial"
           container="inline"
+          fullWidth={true}
           onChange={this.handleInitialDate}/>
         <br/>
         <TextField
+          fullWidth={true}
           type="number"
           hintText="Quantidade de dias"
           floatingLabelText="Quantos dias de férias?"
@@ -34,7 +36,7 @@ export default class Form extends React.Component {
           onChange={this.props.handleNumberOfDaysChange}
         />
         <br/>
-        <RaisedButton onClick={this.setDates} primary={true}>Calcular</RaisedButton>
+        <RaisedButton className="form-button" onClick={this.setDates} primary={true}>Calcular</RaisedButton>
       </form>
     )
   }

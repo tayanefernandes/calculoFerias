@@ -101,6 +101,7 @@ export default class App extends React.Component {
     return (
       <MuiThemeProvider>
         <div className='container'>
+          <h1>Decida qual o melhor dia para tirar suas férias!</h1>
           <Form handleInitialDateChange={this.handleInitialDate}
                 handleNumberOfDaysChange={this.handleNumberOfDays}
                 setDates={this.setDates}/>
