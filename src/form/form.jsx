@@ -1,7 +1,7 @@
 import React from 'react'
-import RaisedButton from 'material-ui/RaisedButton';
-import DatePicker from 'material-ui/DatePicker';
-import TextField from 'material-ui/TextField';
+import RaisedButton from 'material-ui/RaisedButton'
+import DatePicker from 'material-ui/DatePicker'
+import TextField from 'material-ui/TextField'
 
 export default class Form extends React.Component {
 
@@ -18,6 +18,7 @@ export default class Form extends React.Component {
     this.props.calculateResult()
   }
 
+
   render() {
     return (
       <form>
@@ -25,7 +26,14 @@ export default class Form extends React.Component {
           hintText="Informe a data inicial de suas férias"
           floatingLabelText="Data Inicial"
           container="inline"
+          autoOk={true}
           fullWidth={true}
+          firstDayOfWeek={0}
+          formatDate={new Intl.DateTimeFormat('pt-BR', {
+            day: 'numeric',
+            month: 'numeric',
+            year: 'numeric',
+          }).format}
           onChange={this.handleInitialDate}/>
         <br/>
         <TextField className='numberOfDays'
