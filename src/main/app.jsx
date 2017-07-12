@@ -1,39 +1,20 @@
 import React from 'react'
 import moment from 'moment'
+import injectTapEventPlugin from 'react-tap-event-plugin';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+
 
 import './custom.css'
-import Result from './result'
+import Result from '../result/result'
+import Form from '../form/form'
+
+injectTapEventPlugin()
 
 export default class App extends React.Component {
   constructor(props){
     super(props)
     this.state = { initialDate: '',  numberOfDays: '', endDateMoment: '', showResult: false }
-
-    this.handleInitialDateChange = this.handleInitialDateChange.bind(this)
-    this.handleNumberOfDaysChange = this.handleNumberOfDaysChange.bind(this)
-    this.calcVacation = this.calcVacation.bind(this)
   }
-
-  calcVacation(event) {
-    event.preventDefault();
-    const initialDateMoment = moment(this.state.initialDate).startOf('day')
-    const endDateMoment = this.calcEndDate(initialDateMoment, this.state.numberOfDays)
-    const daysOfWeek = this.calcDaysOfWeek(initialDateMoment, endDateMoment)
-    const daysOfWeekend = this.calcWeekends(this.state.numberOfDays, daysOfWeek)
-    const totalDays = this.calcTotalDays(initialDateMoment,
-      endDateMoment, this.state.numberOfDays)
-
-    this.setState({
-      initialDateMoment: initialDateMoment.format('DD/MM/YYYY'),
-      endDateMoment: endDateMoment.format('DD/MM/YYYY'),
-      daysOfWeek,
-      daysOfWeekend,
-      totalDays,
-      showResult: true
-    })
-  }
-
-
 
   calcEndDate(initialDateMoment, numberOfDays) {
     return initialDateMoment.clone().add(numberOfDays - 1, 'day')
@@ -69,7 +50,6 @@ export default class App extends React.Component {
   }
 
   calcDayInTheBeginning(initialDateMoment) {
-    console.log('Day==>', initialDateMoment.day())
     if(initialDateMoment.day() == 1) {
       return 2
     } else if (initialDateMoment.day() == 0){
@@ -91,34 +71,47 @@ export default class App extends React.Component {
     return (dayOfWeek == 6) || (dayOfWeek == 0);
   }
 
-  handleInitialDateChange(event) {
-      this.setState({ initialDate: event.target.value })
+  handleInitialDate = (value) => {
+      this.setState({ initialDate: value })
   }
 
-  handleNumberOfDaysChange(event) {
-      this.setState({ numberOfDays: parseInt(event.target.value) })
+  handleNumberOfDays = (value) => {
+      this.setState({ numberOfDays: parseInt(value) })
+  }
+
+  setDates = () => {
+    const initialDateMoment = moment(this.state.initialDate).startOf('day')
+    const endDateMoment = this.calcEndDate(initialDateMoment, this.state.numberOfDays)
+    const daysOfWeek = this.calcDaysOfWeek(initialDateMoment, endDateMoment)
+    const daysOfWeekend = this.calcWeekends(this.state.numberOfDays, daysOfWeek)
+    const totalDays = this.calcTotalDays(initialDateMoment,
+      endDateMoment, this.state.numberOfDays)
+
+    this.setState({
+      initialDateMoment: initialDateMoment.format('DD/MM/YYYY'),
+      endDateMoment: endDateMoment.format('DD/MM/YYYY'),
+      daysOfWeek,
+      daysOfWeekend,
+      totalDays,
+      showResult: true
+    })
   }
 
   render() {
     return (
-      <div className='container'>
-        <form>
-          <h1>Calcule o melhor dia para suas férias</h1>
-          <label htmlFor="initialDate">Data Inicial</label>
-          <input type="date" id="initialDate" value={this.state.initialDate} onChange={this.handleInitialDateChange} />
-          <br/>
-          <label htmlFor="numberOfDays">Quantos dias de ferias?</label>
-          <input type="number" id="numberOfDays" value={this.state.numberOfDays} onChange={this.handleNumberOfDaysChange} />
-          <br/>
-          <button onClick={this.calcVacation}>Calcular</button>
-        </form>
-        <Result
-          showResult={this.state.showResult}
-          endDateMoment={this.state.endDateMoment}
-          totalDays={this.state.totalDays}
-          daysOfWeek={this.state.daysOfWeek}
-          daysOfWeekend={this.state.daysOfWeekend} />
-      </div>
+      <MuiThemeProvider>
+        <div className='container'>
+          <Form handleInitialDateChange={this.handleInitialDate}
+                handleNumberOfDaysChange={this.handleNumberOfDays}
+                setDates={this.setDates}/>
+          <Result
+            showResult={this.state.showResult}
+            endDateMoment={this.state.endDateMoment}
+            totalDays={this.state.totalDays}
+            daysOfWeek={this.state.daysOfWeek}
+            daysOfWeekend={this.state.daysOfWeekend} />
+        </div>
+      </MuiThemeProvider>
     )
   }
 }

@@ -4,34 +4,14 @@ import { mount, shallow } from 'enzyme'
 import moment from 'moment'
 
 import App from './app'
-import Result from './result'
+import Result from '../result/result'
 
 describe('<App />', () => {
   it('renders <Result /> component', () => {
     const wrapper = shallow(<App />)
-    wrapper.find('button').simulate('click', { preventDefault: () => {} })
+    wrapper.instance().setDates()
 
     expect(wrapper.find(Result)).to.have.length(1)
-  })
-
-  it('set initial date of vacation', () => {
-    const wrapper = shallow(<App />)
-    wrapper.find('#initialDate').simulate('change', { target: {
-      value: '18-06-2017' }
-    });
-    wrapper.update()
-
-    expect(wrapper.state().initialDate).to.equal('18-06-2017');
-  })
-
-  it('set number of days of vacation', () => {
-    const wrapper = shallow(<App />)
-    wrapper.find('#numberOfDays').simulate('change', { target: {
-      value: '7' }
-    })
-    wrapper.update()
-
-    expect(wrapper.state().numberOfDays).to.equal(7);
   })
 
   it('calculates vacation end date', () => {
