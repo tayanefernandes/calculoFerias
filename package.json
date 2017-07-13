@@ -4,6 +4,7 @@
   "description": "Descubra qual o melhor dia para tirar sua férias",
   "main": "index.js",
   "scripts": {
+    "build": "webpack --colors --progress",
     "dev": "webpack-dev-server --progress --colors --inline --hot",
     "test": "npm run lint & NODE_ENV=test nyc mocha-webpack --webpack-config webpack.config-test.babel.js \"src/**/*.test.js\"",
     "lint": "eslint --ext .js --ext .jsx src"
