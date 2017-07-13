@@ -7,7 +7,9 @@
     "build": "webpack --colors --progress",
     "dev": "webpack-dev-server --progress --colors --inline --hot",
     "test": "npm run lint & NODE_ENV=test nyc mocha-webpack --webpack-config webpack.config-test.babel.js \"src/**/*.test.js\"",
-    "lint": "eslint --ext .js --ext .jsx src"
+    "lint": "eslint --ext .js --ext .jsx src",
+    "postinstall": "npm run build",
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
@@ -63,6 +65,8 @@
     ]
   },
   "dependencies": {
+    "babel-register": "^6.24.1",
+    "express": "^4.15.3",
     "react-tap-event-plugin": "^2.0.1"
   }
 }
