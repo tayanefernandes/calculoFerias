@@ -7,10 +7,6 @@ body {
     width: 90%;
 }
 
-.form-button {
-  margin-top: 30px;
-}
-
 @media (min-width: 768px) {
   #app {
       width: 40%;

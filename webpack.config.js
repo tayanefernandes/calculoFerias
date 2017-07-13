@@ -1,10 +1,11 @@
-const webpack = require('webpack')
+require('webpack')
+const path = require('path')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 module.exports = {
   entry: './src/index.jsx',
   output: {
-    path: __dirname + '/public',
+    path: path.join(__dirname, '/public'),
     filename: './bundle.js'
   },
   devServer: {

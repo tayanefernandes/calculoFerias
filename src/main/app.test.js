@@ -1,6 +1,6 @@
 import React from 'react'
 import { expect } from 'chai'
-import { mount, shallow } from 'enzyme'
+import { shallow } from 'enzyme'
 import moment from 'moment'
 
 import App from './app'
@@ -117,9 +117,7 @@ describe('<App />', () => {
   it('calculates if a day is weekend', () => {
     const wrapper = shallow(<App />)
     const startDate = moment('16-07-2017', 'DD-MM-YYYY').startOf('day')
-    const isWeekend = wrapper.instance().isWeekend(startDate.day())
 
-    expect(isWeekend).to.be.true;
+    expect(wrapper.instance().isWeekend(startDate.day())).to.be.true
   })
-
-});
+})

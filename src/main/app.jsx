@@ -13,7 +13,7 @@ injectTapEventPlugin()
 export default class App extends React.Component {
   constructor(props) {
     super(props)
-    this.state = { initialDate: '',  numberOfDays: '', endDateMoment: '', showResult: false }
+    this.state = { initialDate: '', numberOfDays: '', endDateMoment: '', showResult: false }
   }
 
   calcEndDate(initialDateMoment, numberOfDays) {
@@ -25,12 +25,12 @@ export default class App extends React.Component {
     let curDate = initialDateMoment.clone();
 
     while (curDate <= endDate) {
-        let day = curDate.day();
-        if(!this.isWeekend(day)) {
-           countDaysOfWeek++;
-        }
+      const day = curDate.day();
+      if (!this.isWeekend(day)) {
+        countDaysOfWeek += 1;
+      }
 
-        curDate = curDate.add(1, 'day');
+      curDate = curDate.add(1, 'day');
     }
 
     return countDaysOfWeek
@@ -50,25 +50,25 @@ export default class App extends React.Component {
   }
 
   calcDayInTheBeginning(initialDateMoment) {
-    if(initialDateMoment.day() == 1) {
+    if (initialDateMoment.day() === 1) {
       return 2
-    } else if (initialDateMoment.day() == 0){
+    } else if (initialDateMoment.day() === 0) {
       return 1
     }
     return 0
   }
 
   calcDayInTheEnd(endDate) {
-    if(endDate.day() == 5) {
+    if (endDate.day() === 5) {
       return 2
-    } else if (endDate.day() == 6){
+    } else if (endDate.day() === 6) {
       return 1
     }
     return 0
   }
 
   isWeekend(dayOfWeek) {
-    return (dayOfWeek == 6) || (dayOfWeek == 0);
+    return (dayOfWeek === 6) || (dayOfWeek === 0);
   }
 
   handleInitialDate = (value) => {
@@ -76,7 +76,7 @@ export default class App extends React.Component {
   }
 
   handleNumberOfDays = (value) => {
-    this.setState({ numberOfDays: parseInt(value) })
+    this.setState({ numberOfDays: parseInt(value, 10) })
   }
 
   calculateResult = () => {
@@ -92,7 +92,7 @@ export default class App extends React.Component {
       endDateMoment: endDateMoment.format('DD/MM/YYYY'),
       daysOfWeek,
       daysOfWeekend,
-      totalDays,
+      totalDays: parseInt(totalDays, 10),
       showResult: true
     })
   }
@@ -102,15 +102,18 @@ export default class App extends React.Component {
       <MuiThemeProvider>
         <div className='container'>
           <h1>Decida qual o melhor dia para tirar suas férias!</h1>
-          <Form handleInitialDateChange={this.handleInitialDate}
-                handleNumberOfDaysChange={this.handleNumberOfDays}
-                calculateResult={this.calculateResult}/>
+          <Form
+            handleInitialDateChange={this.handleInitialDate}
+            handleNumberOfDaysChange={this.handleNumberOfDays}
+            calculateResult={this.calculateResult}
+          />
           <Result
             showResult={this.state.showResult}
             endDateMoment={this.state.endDateMoment}
             totalDays={this.state.totalDays}
             daysOfWeek={this.state.daysOfWeek}
-            daysOfWeekend={this.state.daysOfWeekend} />
+            daysOfWeekend={this.state.daysOfWeekend}
+          />
         </div>
       </MuiThemeProvider>
     )
