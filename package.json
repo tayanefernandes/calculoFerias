@@ -2,6 +2,9 @@
   "name": "calculo-dias-ferias",
   "version": "1.0.0",
   "description": "Descubra qual o melhor dia para tirar sua férias",
+  "engines": {
+    "node": "8.1.4"
+  },
   "main": "index.js",
   "scripts": {
     "build": "webpack --colors --progress",
